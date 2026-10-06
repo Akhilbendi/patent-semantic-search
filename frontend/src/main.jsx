@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { Search, SlidersHorizontal, ChevronRight, ArrowLeft, FileText, Loader2, ExternalLink, AlertCircle } from 'lucide-react'
 import './styles.css'
 
-const API = '/api'
+const API = 'https://patent-semantic-search-api.onrender.com'
 
 function scoreClass(score) {
   if (score >= 0.7) return 'score high'
