@@ -1,0 +1,24 @@
+FREE DEPLOYMENT CHECKLIST
+
+A) BACKEND / RENDER
+1. Upload the whole project to GitHub.
+2. Render -> New -> Web Service -> select repo.
+3. Root Directory: backend
+4. Build: pip install --no-cache-dir -r requirements.txt
+5. Start: uvicorn main:app --host 0.0.0.0 --port $PORT
+6. Plan: Free
+7. Wait for deploy.
+8. Open: https://YOUR-SERVICE.onrender.com/health
+
+B) FRONTEND / NETLIFY
+1. Edit frontend/netlify.toml.
+2. Replace BACKEND_URL_HERE with YOUR-SERVICE.onrender.com.
+3. Netlify -> Add new site -> Deploy manually / Drop.
+4. Upload frontend folder while logged in, OR upload frontend/dist after npm run build.
+5. Open the Netlify URL.
+
+C) TEST
+Query: battery management system for electric vehicles
+Threshold: 0.35
+Expected: ranked results or N/A.
+Click a result to open publication number, title, abstract and claims.
