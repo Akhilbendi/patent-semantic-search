@@ -2,16 +2,6 @@
   command = "npm run build"
   publish = "dist"
 
-# After deploying the backend on Render, replace BACKEND_URL_HERE below
-# with your actual https://<service>.onrender.com URL and redeploy Netlify.
-# The React app calls /api/*, so the backend URL is hidden behind Netlify.
-[[redirects]]
-  from = "/api/*"
-  to = "https://BACKEND_URL_HERE/:splat"
-  status = 200
-  force = true
-
-# React SPA fallback (keep this after the /api proxy)
 [[redirects]]
   from = "/*"
   to = "/index.html"
