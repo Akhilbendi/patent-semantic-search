@@ -42,24 +42,63 @@ https://github.com/Akhilbendi/patent-semantic-search
 
 ## System Architecture
 
+The application is implemented as a two-tier web architecture consisting of a lightweight React frontend and a Python-based semantic search backend.
+
+The frontend is responsible for the user interface and search interaction, while the backend handles query processing, semantic embedding generation, vector retrieval, relevance filtering, and patent metadata retrieval.
+
+### High-Level Architecture
+
 ```text
-User
- │
- ▼
-React + Vite Frontend
- │
- │ HTTPS API
- ▼
-FastAPI Backend
- │
- ├── Query Embedding
- │       │
- │       ▼
- │   MiniLM Model
- │
- ├── FAISS Vector Search
- │
- └── Patent Metadata
-        │
-        ▼
- Ranked Search Results
+                              USER
+                               │
+                               │ Search Query
+                               ▼
+                    ┌─────────────────────┐
+                    │   React + Vite      │
+                    │     Frontend        │
+                    │                     │
+                    │ • Search interface  │
+                    │ • Threshold control │
+                    │ • Result display    │
+                    │ • Patent details    │
+                    └──────────┬──────────┘
+                               │
+                               │ HTTPS REST API
+                               ▼
+                    ┌─────────────────────┐
+                    │      FastAPI        │
+                    │      Backend        │
+                    │                     │
+                    │  API Layer         │
+                    │  /health           │
+                    │  /search           │
+                    │  /patent/{id}      │
+                    └──────────┬──────────┘
+                               │
+                ┌──────────────┼───────────────┐
+                │              │               │
+                ▼              ▼               ▼
+       ┌──────────────┐ ┌──────────────┐ ┌───────────────┐
+       │ Query        │ │ FAISS Vector  │ │ Patent        │
+       │ Embedding    │ │ Index         │ │ Metadata      │
+       │              │ │               │ │               │
+       │ MiniLM       │ │ IndexFlatIP   │ │ Publication   │
+       │ Model        │ │               │ │ Title         │
+       └──────┬───────┘ └──────┬───────┘ │ Abstract      │
+              │                │          │ Claims        │
+              │                │          └───────────────┘
+              │                │
+              └───────┬────────┘
+                      │
+                      ▼
+              Similarity Scores
+                      │
+                      ▼
+              Relevance Threshold
+                   (0.35)
+                      │
+                      ▼
+                 Top 20 Results
+                      │
+                      ▼
+                 React Frontend
