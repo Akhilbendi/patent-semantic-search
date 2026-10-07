@@ -1,51 +1,65 @@
-# Patent Semantic Search — Free Netlify + Render Deployment
+# Patent Semantic Search
 
-This package keeps the existing semantic-search core: **sentence-transformers/all-MiniLM-L6-v2 + normalized embeddings + FAISS exact inner-product search**, with a default frontend/backend relevance threshold of **0.35**.
+A semantic patent search application that enables users to search approximately 10,000 patent records using natural-language queries.
 
-## Architecture
+The application uses transformer-based semantic embeddings and FAISS similarity search to retrieve patents based on meaning rather than relying only on exact keyword matching.
 
-- `frontend/` → React + Vite → deploy to Netlify.
-- `backend/` → FastAPI + FastEmbed/ONNX + FAISS + compressed patent metadata → deploy to Render Free.
+## Live Application
 
-The frontend is intentionally small. It does **not** contain the 10K dataset, FAISS index, Python, PyTorch, or ML model.
+**Frontend:**  
+https://patent-semantic-search.netlify.app
 
-## 1. Deploy backend on Render (free)
+**Backend API:**  
+https://patent-semantic-search-api.onrender.com
 
-1. Put this project in a GitHub repository.
-2. In Render, choose **New → Web Service** and connect the repository.
-3. Set **Root Directory** to `backend`.
-4. Build command: `pip install --no-cache-dir -r requirements.txt`
-5. Start command: `uvicorn main:app --host 0.0.0.0 --port $PORT`
-6. Select the **Free** plan.
-7. After deployment, open `/health`. It should report 10,000 records and 10,000 indexed vectors.
+**API Documentation:**  
+https://patent-semantic-search-api.onrender.com/docs
 
-The first model initialization can take time because the lightweight ONNX MiniLM model is downloaded by FastEmbed.
+## Source Code
 
-## 2. Connect the Netlify frontend
+**GitHub Repository:**  
+https://github.com/Akhilbendi/patent-semantic-search
 
-Open `frontend/netlify.toml` and replace:
+---
 
-`https://BACKEND_URL_HERE/:splat`
+## Key Features
 
-with your Render service URL, for example:
+- Natural-language semantic patent search
+- Search across approximately 10,000 patent records
+- Title, Abstract, and Claims used for semantic retrieval
+- Sentence Transformer embeddings using `all-MiniLM-L6-v2`
+- FAISS exact vector similarity search
+- Normalized embeddings with cosine-similarity equivalent scoring
+- Configurable minimum relevance threshold
+- Maximum Top 20 results
+- Relevance score displayed for each result
+- `N/A` returned when no result meets the selected threshold
+- Individual patent detail pages
+- Patent title, abstract, and claims available from the result view
+- Responsive interface for desktop and mobile devices
 
-`https://patent-semantic-search-api.onrender.com/:splat`
+---
 
-Then deploy the **frontend folder** to Netlify.
+## System Architecture
 
-Netlify will build it with `npm run build` and publish `dist`.
-
-## 3. Netlify upload
-
-If using Netlify Drop, upload the **frontend folder** while logged into Netlify. Netlify can detect and build Vite projects; alternatively build locally with `npm install && npm run build` and upload `frontend/dist`.
-
-## API behavior
-
-- `GET /health`
-- `POST /search` → maximum 20 results; threshold defaults to 0.35.
-- `GET /patent/{publication_number}` → full patent details.
-- If no results meet the threshold, the frontend displays exactly `N/A`.
-
-## Important free-tier note
-
-Render Free web services can spin down after 15 minutes of inactivity, so the first request after idle may be slow. The filesystem is ephemeral, so the project includes the precomputed FAISS index and compressed metadata in the deployment itself.
+```text
+User
+ │
+ ▼
+React + Vite Frontend
+ │
+ │ HTTPS API
+ ▼
+FastAPI Backend
+ │
+ ├── Query Embedding
+ │       │
+ │       ▼
+ │   MiniLM Model
+ │
+ ├── FAISS Vector Search
+ │
+ └── Patent Metadata
+        │
+        ▼
+ Ranked Search Results
