@@ -68,7 +68,7 @@ function App() {
       <section className="hero">
         <p className="eyebrow">SEMANTIC PATENT SEARCH</p>
         <h1>Find patents by <span>meaning</span>, not just keywords.</h1>
-        <p className="sub">Search 10,000 patent records using the same MiniLM semantic-embedding and FAISS similarity workflow used in the analysis notebook.</p>
+        <p className="sub">Search 10,000 patent records using semantic similarity.</p>
       </section>
       <section className="search-panel">
         <label>Search query</label>
