@@ -69,24 +69,24 @@ The frontend is responsible for the user interface and search interaction, while
                     │      FastAPI        │
                     │      Backend        │
                     │                     │
-                    │  API Layer         │
-                    │  /health           │
-                    │  /search           │
-                    │  /patent/{id}      │
+                    │  API Layer          │
+                    │  /health            │
+                    │  /search            │
+                    │  /patent/{id}       │
                     └──────────┬──────────┘
                                │
                 ┌──────────────┼───────────────┐
                 │              │               │
                 ▼              ▼               ▼
-       ┌──────────────┐ ┌──────────────┐ ┌───────────────┐
-       │ Query        │ │ FAISS Vector  │ │ Patent        │
-       │ Embedding    │ │ Index         │ │ Metadata      │
-       │              │ │               │ │               │
-       │ MiniLM       │ │ IndexFlatIP   │ │ Publication   │
-       │ Model        │ │               │ │ Title         │
-       └──────┬───────┘ └──────┬───────┘ │ Abstract      │
-              │                │          │ Claims        │
-              │                │          └───────────────┘
+       ┌──────────────┐ ┌──────────────┐ ┌──────────────┐
+       │ Query        │ │ FAISS Vector │ │ Patent       │
+       │ Embedding    │ │ Index        │ │ Metadata     │
+       │              │ │              │ │              │
+       │ MiniLM       │ │ IndexFlatIP  │ │ Publication  │
+       │ Model        │ │              │ │ Title        │
+       └──────┬───────┘ └──────┬───────┘ │ Abstract     │
+              │                │         │ Claims       │
+              │                │         └──────────────┘
               │                │
               └───────┬────────┘
                       │
